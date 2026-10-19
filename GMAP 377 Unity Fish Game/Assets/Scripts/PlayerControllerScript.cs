@@ -1,3 +1,4 @@
+using DG.Tweening.Plugins.Options;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -5,25 +6,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerControllerScript : MonoBehaviour
 {
+    [SerializeField] Rigidbody rigidBody;
+
     [SerializeField] float baseSwimSpeed;
     [SerializeField] float fastSwimSpeed;
     private float stamina;
     [SerializeField] float staminaRegenRate = 5f;
     [SerializeField] float fastSwimStaminaDecreaseRate = 5f;
-
-    [SerializeField] float shakeDistance = 10f; //Distance (in pixels) to trigger fast swimming
-    [SerializeField] float shakeWindow = .5f; //Distance over time (in seconds) to track for fast swimming
-    [SerializeField] int shakesRequired = 3;
-
-    private float shakeWindowExtender = 0;
-    private float fastSwimTimer = 0f;
-    private Vector3 lastMousePosition;
-    private float shakeTimer;
-    private int shakeCount;
-    private int lastDirectionX;
-    private int lastDirectionY;
     private bool isFastSwimming = false;
-
 
     private bool isFacingRight = true;
 
@@ -31,29 +21,9 @@ public class PlayerControllerScript : MonoBehaviour
     [SerializeField] StaminaBarScript staminaBarScript;
     private void Update()
     {
-        if (inWater)
-        {
-            Swimming();
-        }
-        else
-        {
-            OutOfWater();
-        }
+        Swimming();
 
-            stamina = staminaBarScript.GetStamina();
-
-        if (isFastSwimming)
-        {
-            fastSwimTimer -= Time.deltaTime;
-            Debug.Log(fastSwimTimer);
-
-            if (fastSwimTimer <= 0f)
-            {
-                isFastSwimming = false;
-                shakeWindowExtender = 0f;
-            }
-        }
-
+        stamina = staminaBarScript.GetStamina();
     }
 
     private void Swimming()
@@ -63,7 +33,6 @@ public class PlayerControllerScript : MonoBehaviour
         if (Mouse.current != null && Mouse.current.leftButton.isPressed)
         {
             //Gets positions for movement
-            CalculateFastSwimming(mouseScreenPos);
 
             Vector3 currentPOS = transform.position;
 
@@ -77,48 +46,38 @@ public class PlayerControllerScript : MonoBehaviour
             Vector3 direction = mousePOS - currentPOS;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            if (direction.x < 0 && isFacingRight == true)
+            if ((direction.x < 0 && isFacingRight) || (direction.x > 0 && !isFacingRight)) //Handles sprite flipping
             {
                 FlipSprite();
             }
-            else if (direction.x > 0 && isFacingRight == false)
-            {
-                FlipSprite();
-            }
+
             transform.rotation = Quaternion.Euler(0, 0, angle - 90f); //Look towards cursor
 
+            isFastSwimming = Input.GetKey(KeyCode.Space) && stamina > 0;
+            float speed = isFastSwimming ? fastSwimSpeed : baseSwimSpeed;
 
             //Move towards Cursor
             if (Vector3.Distance(currentPOS, mousePOS) > 1f)
             {
-                float speed = isFastSwimming ? fastSwimSpeed : baseSwimSpeed;
-
-                if (speed == fastSwimSpeed)
+                if (isFastSwimming)
                 {
                     staminaBarScript.DecreaseStamina.Invoke(fastSwimStaminaDecreaseRate * Time.deltaTime);
-                    if (stamina <= 0)
-                    {
-                        speed = baseSwimSpeed;
-                    }
                 }
                 else
                 {
                     staminaBarScript.IncreaseStamina.Invoke(staminaRegenRate * Time.deltaTime);
                 }
 
-                transform.position = Vector3.MoveTowards(currentPOS, mousePOS, speed * Time.deltaTime);
+                //transform.position = Vector3.MoveTowards(currentPOS, mousePOS, speed * Time.deltaTime);
+                rigidBody.linearVelocity = direction.normalized * speed;
             }
         }
         else
         {
-            shakeTimer = 0f;
-            shakeCount = 0;
-            lastDirectionX = 0;
-            lastDirectionY = 0;
             isFastSwimming = false;
             staminaBarScript.IncreaseStamina.Invoke(staminaRegenRate * Time.deltaTime); //Increases stamina by 5 when staying still
+            rigidBody.linearVelocity = Vector3.Lerp(rigidBody.linearVelocity, Vector3.zero, 3 * Time.deltaTime); //Slows movement to 0;
         }
-        lastMousePosition = mouseScreenPos;
     }
 
     private void FlipSprite()
@@ -129,85 +88,12 @@ public class PlayerControllerScript : MonoBehaviour
         transform.localScale = currentScale;
     }
 
-    private bool CalculateFastSwimming(Vector3 mousePOS)
-    {
-        shakeTimer += Time.deltaTime;
-        
-
-        Vector3 mouseDelta = mousePOS - lastMousePosition;
-
-        int directionX = 0;
-        int directionY = 0;
-
-        if (Mathf.Abs(mouseDelta.x) >= shakeDistance)
-            directionX = mouseDelta.x > 0 ? 1 : -1;
-
-        if (Mathf.Abs(mouseDelta.y) >= shakeDistance)
-            directionY = mouseDelta.y > 0 ? 1 : -1;
-
-        // Count horizontal direction reversals
-        if (directionX != 0)
-        {
-            if (lastDirectionX != 0 && directionX != lastDirectionX)
-            {
-                shakeCount++;
-                shakeWindowExtender += .2f; //Increases fast swim time by x each shake
-            }
-            lastDirectionX = directionX;
-        }
-
-        // Count vertical direction reversals
-        if (directionY != 0)
-        {
-            if (lastDirectionY != 0 && directionY != lastDirectionY)
-            {
-                shakeCount++;
-                shakeWindowExtender += .2f; //Increases fast swim time by x each shake
-            }
-            lastDirectionY = directionY;
-        }
-
-        // Activate fast swimming when enough reversals occur
-        if (shakeCount >= shakesRequired)
-        {
-            isFastSwimming = true;
-            fastSwimTimer = shakeWindow + shakeWindowExtender;
-            if (fastSwimTimer > 1f) //Hard Cap on extended swim time
-            {
-                fastSwimTimer = 1f;
-            }
-
-            shakeCount = 0;
-            shakeTimer = 0f;
-            lastDirectionX = 0;
-            lastDirectionY = 0;
-            shakeWindowExtender = 0f;
-        }
-
-        // Reset if the time window expires
-        if (shakeTimer >= shakeWindow)
-        {
-            shakeWindowExtender = 0f;
-            shakeTimer = 0f;
-            shakeCount = 0;
-            lastDirectionX = 0;
-            lastDirectionY = 0;
-        }
-
-        return isFastSwimming;
-    }
-
-    private void OutOfWater()
-    {
-        float gravity = 9.81f;
-        transform.position += Vector3.down * gravity * Time.deltaTime;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Water"))
         {
             inWater = true;
+            rigidBody.useGravity = false;
         }
     }
 
@@ -216,11 +102,7 @@ public class PlayerControllerScript : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             inWater = false;
-            shakeTimer = 0f;
-            shakeCount = 0;
-            lastDirectionX = 0;
-            lastDirectionY = 0;
-            isFastSwimming = false;
+            rigidBody.useGravity = true;
         }
     }
 }
