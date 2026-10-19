@@ -910,13 +910,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541b371c23745db4eba13288c267330f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerScript
+  rigidBody: {fileID: 419077737}
   baseSwimSpeed: 5
   fastSwimSpeed: 15
   staminaRegenRate: 30
   fastSwimStaminaDecreaseRate: 20
-  shakeDistance: 10
-  shakeWindow: 0.5
-  shakesRequired: 3
   staminaBarScript: {fileID: 2137505222}
 --- !u!212 &419077735
 SpriteRenderer:
@@ -1025,9 +1023,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!135 &419077738
 SphereCollider:
   m_ObjectHideFlags: 0

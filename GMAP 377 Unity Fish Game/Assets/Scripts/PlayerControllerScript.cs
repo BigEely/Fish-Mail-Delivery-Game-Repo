@@ -28,31 +28,31 @@ public class PlayerControllerScript : MonoBehaviour
 
     private void Swimming()
     {
+        //Gets positions for movement
+
         Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
+
+        Vector3 currentPOS = transform.position;
+
+        Vector3 mousePOS = mouseScreenPos;
+        mousePOS.z = -Camera.main.transform.position.z;
+        mousePOS = Camera.main.ScreenToWorldPoint(mousePOS);
+        mousePOS.z = 0;
+
+        //Look towards Cursor segment
+
+        Vector3 direction = mousePOS - currentPOS;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        if ((direction.x < 0 && isFacingRight) || (direction.x > 0 && !isFacingRight)) //Handles sprite flipping
+        {
+            FlipSprite();
+        }
+
+        transform.rotation = Quaternion.Euler(0, 0, angle - 90f); //Look towards cursor
 
         if (Mouse.current != null && Mouse.current.leftButton.isPressed)
         {
-            //Gets positions for movement
-
-            Vector3 currentPOS = transform.position;
-
-            Vector3 mousePOS = mouseScreenPos;
-            mousePOS.z = -Camera.main.transform.position.z;
-            mousePOS = Camera.main.ScreenToWorldPoint(mousePOS);
-            mousePOS.z = 0;
-
-            //Look towards Cursor segment
-
-            Vector3 direction = mousePOS - currentPOS;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            if ((direction.x < 0 && isFacingRight) || (direction.x > 0 && !isFacingRight)) //Handles sprite flipping
-            {
-                FlipSprite();
-            }
-
-            transform.rotation = Quaternion.Euler(0, 0, angle - 90f); //Look towards cursor
-
             isFastSwimming = Input.GetKey(KeyCode.Space) && stamina > 0;
             float speed = isFastSwimming ? fastSwimSpeed : baseSwimSpeed;
 
