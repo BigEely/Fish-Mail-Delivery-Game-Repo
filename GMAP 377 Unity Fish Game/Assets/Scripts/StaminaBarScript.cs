@@ -26,6 +26,10 @@ public class StaminaBarScript : MonoBehaviour
         currentStamina = Mathf.Min(currentStamina + StaminaChange, maxStamina);
         UpdateStaminaBar();
     }
+    public void AddStaminaFromEnergyBall()
+    {
+        AddStamina(20.0f);
+    }
 
     private void RemoveStamina(float StaminaChange)
     { 

@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerControllerScript : MonoBehaviour
 {
@@ -57,9 +58,9 @@ public class PlayerControllerScript : MonoBehaviour
 
     private void Swimming()
     {
-        Vector3 mouseScreenPos = Input.mousePosition;
+        Vector3 mouseScreenPos = Mouse.current.position.ReadValue();
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Mouse.current != null && Mouse.current.leftButton.isPressed)
         {
             //Gets positions for movement
             CalculateFastSwimming(mouseScreenPos);
