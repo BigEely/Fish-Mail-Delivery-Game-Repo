@@ -60,7 +60,7 @@ public class PostalDeliverer: MonoBehaviour
             int index = delivery.GetIndex();
             deliveries[index] = null;
             delivery_destinations[index] = -1;
-            delivery.Complete();
+            fish_flakes += delivery.Complete();
         }
     }
 }

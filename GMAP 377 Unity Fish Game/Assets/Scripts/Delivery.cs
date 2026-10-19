@@ -53,10 +53,11 @@ public class Delivery: MonoBehaviour
         player = triggering_player;
     }
 
-    public void Complete()
+    public int Complete()
     {
         // pay reward
         Destroy(gps);
         Destroy(gameObject);
+        return reward;
     }
 }
