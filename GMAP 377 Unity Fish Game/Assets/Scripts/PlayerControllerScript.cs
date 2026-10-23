@@ -18,11 +18,13 @@ public class PlayerControllerScript : MonoBehaviour
     private bool isFacingRight = true;
 
     private bool inWater = true;
+    private Vector3 Gravity;
+    public float weight = 0f;
     [SerializeField] StaminaBarScript staminaBarScript;
     private void Update()
     {
         Swimming();
-
+        Weight();
         stamina = staminaBarScript.GetStamina();
     }
 
@@ -51,7 +53,7 @@ public class PlayerControllerScript : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0, 0, angle - 90f); //Look towards cursor
 
-        if (Mouse.current != null && Mouse.current.leftButton.isPressed)
+        if (Mouse.current != null && Mouse.current.leftButton.isPressed && inWater)
         {
             isFastSwimming = Input.GetKey(KeyCode.Space) && stamina > 0;
             float speed = isFastSwimming ? fastSwimSpeed : baseSwimSpeed;
@@ -68,8 +70,7 @@ public class PlayerControllerScript : MonoBehaviour
                     staminaBarScript.IncreaseStamina.Invoke(staminaRegenRate * Time.deltaTime);
                 }
 
-                //transform.position = Vector3.MoveTowards(currentPOS, mousePOS, speed * Time.deltaTime);
-                rigidBody.linearVelocity = direction.normalized * speed;
+                rigidBody.linearVelocity = direction.normalized  * speed + Gravity;
             }
         }
         else
@@ -77,6 +78,27 @@ public class PlayerControllerScript : MonoBehaviour
             isFastSwimming = false;
             staminaBarScript.IncreaseStamina.Invoke(staminaRegenRate * Time.deltaTime); //Increases stamina by 5 when staying still
             rigidBody.linearVelocity = Vector3.Lerp(rigidBody.linearVelocity, Vector3.zero, 3 * Time.deltaTime); //Slows movement to 0;
+
+            rigidBody.AddForce(Gravity, ForceMode.Acceleration);
+        }
+    }
+
+    private void Weight()
+    {
+        float gravityPower = 0.5f;
+
+        if (weight < 0)
+        {
+            weight = 0;
+        }
+
+        if (!inWater)
+        {
+            Gravity = Physics.gravity * (weight/8 + gravityPower);
+        }
+        else
+        {
+            Gravity = Physics.gravity * (weight/8);
         }
     }
 
@@ -93,7 +115,6 @@ public class PlayerControllerScript : MonoBehaviour
         if (other.gameObject.CompareTag("Water"))
         {
             inWater = true;
-            rigidBody.useGravity = false;
         }
     }
 
@@ -102,7 +123,6 @@ public class PlayerControllerScript : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             inWater = false;
-            rigidBody.useGravity = true;
         }
     }
 }
