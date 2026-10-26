@@ -140,7 +140,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -158,5 +158,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601d105e42c9baf4592cd3e16f889017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Delivery
-  player: {fileID: 6519857584138542670, guid: 38ead33d276bb1f46a1524ad17327180, type: 3}
   gps: {fileID: 608164584802236890}
+  package_prefab: {fileID: 4675866009866922438, guid: be8611460b9f83f40aa557684207e591, type: 3}

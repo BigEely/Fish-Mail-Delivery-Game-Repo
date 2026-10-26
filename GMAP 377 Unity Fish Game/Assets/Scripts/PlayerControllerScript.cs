@@ -125,4 +125,9 @@ public class PlayerControllerScript : MonoBehaviour
             inWater = false;
         }
     }
+
+    public void HitStamina()
+    {
+        staminaBarScript.HitPlayer();
+    }
 }

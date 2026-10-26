@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Delivery: MonoBehaviour
@@ -14,8 +16,18 @@ public class Delivery: MonoBehaviour
     private PostalDeliverer player;
     public GameObject gps;
 
+    [SerializeField] private GameObject package_prefab;
+    private Package package;
+    private bool package_spawned = false;
+
     void Update()
     {
+        if (package_spawned)
+        {
+            Debug.Log("Package Spawned");
+            Vector2 package_location = package.GetLocation();
+            SetDestination(package_location.x, package_location.y);
+        }
         Vector3 player_pos = player.gameObject.transform.position;
 
         Vector3 trajectory = new Vector3(destination_x, destination_y, 0f) - player_pos;
@@ -41,6 +53,10 @@ public class Delivery: MonoBehaviour
     {
         return delivery_index;
     }
+    public bool GetPackageSpawned()
+    {
+        return package_spawned;
+    }
 
     public void SetDelivery(int index, float dest_x, float dest_y, int delivery_size, PostalDeliverer triggering_player)
     {
@@ -65,5 +81,36 @@ public class Delivery: MonoBehaviour
         player.GetComponent<PlayerControllerScript>().weight -= delivery_type;
         GameManager.instance.packageFishFlakes += reward;
         return reward;
+    }
+
+    public void SpawnPackage(Vector3 player_position, int delivery_location)
+    {
+        // Create package object that has this delivery object and the delivery location marker
+        GameObject instance = Instantiate(package_prefab);
+        package = instance.GetComponent<Package>();
+        package.CreatePackage(player_position, delivery_location, this);
+        package.gameObject.SetActive(true);
+        package_spawned = true;
+    }
+
+    public void DestroyPackage(Vector3 destination)
+    {
+        if (package != null)
+        {
+            package_spawned = false;
+            Destroy(package.gameObject);
+        }
+        SetDestination(destination.x, destination.y);
+    }
+
+    private void SetDestination(float x, float y)
+    {
+        destination_x = x;
+        destination_y = y;
+    }
+
+    public void SetIndex(int ind)
+    {
+        delivery_index = ind;
     }
 }

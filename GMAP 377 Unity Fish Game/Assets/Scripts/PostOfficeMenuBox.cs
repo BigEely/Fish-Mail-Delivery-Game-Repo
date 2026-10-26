@@ -9,6 +9,7 @@ public class PostOfficeMenuBox: MonoBehaviour
     void Start()
     {
         this.gameObject.SetActive(false);
+        postal_deliverer.OrderDelivery(delivery_size);
     }
 
     void Update()
