@@ -105,4 +105,9 @@ public class PlayerControllerScript : MonoBehaviour
             rigidBody.useGravity = true;
         }
     }
+
+    public void HitStamina()
+    {
+        staminaBarScript.HitPlayer();
+    }
 }

@@ -36,6 +36,10 @@ public class StaminaBarScript : MonoBehaviour
         currentStamina = Mathf.Max(currentStamina - StaminaChange, 0f);
         UpdateStaminaBar();
     }
+    public void HitPlayer()
+    {
+        this.RemoveStamina(20.0f);
+    }
 
     public float GetStamina()
     {

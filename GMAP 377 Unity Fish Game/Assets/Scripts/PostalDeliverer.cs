@@ -38,7 +38,9 @@ public class PostalDeliverer: MonoBehaviour
                     random_number = 3;
                 }
             }
+            delivery_destinations[0] = random_number;
             delivery.SetDelivery(0, destinations[random_number].x, destinations[random_number].y, delivery_size, this);
+            deliveries[0] = delivery;
         }
         else if (delivery_destinations[1] == -1)
         {
@@ -48,7 +50,9 @@ public class PostalDeliverer: MonoBehaviour
             {
                 random_number = 3;
             }
+            delivery_destinations[1] = random_number;
             delivery.SetDelivery(1, destinations[random_number].x, destinations[random_number].y, delivery_size, this);
+            deliveries[1] = delivery;
         }
     }
 
@@ -57,10 +61,67 @@ public class PostalDeliverer: MonoBehaviour
         if (other.gameObject.CompareTag("Delivery"))
         {
             Delivery delivery = other.gameObject.GetComponent<Delivery>();
-            int index = delivery.GetIndex();
-            deliveries[index] = null;
-            delivery_destinations[index] = -1;
-            fish_flakes += delivery.Complete();
+            bool package_mode = delivery.GetPackageSpawned();
+            if (!package_mode)
+            {
+                int index = delivery.GetIndex();
+                deliveries[index] = null;
+                delivery_destinations[index] = -1;
+                fish_flakes += delivery.Complete();
+            }
         }
+        else if (other.gameObject.CompareTag("Package"))
+        {
+            Package package = other.gameObject.GetComponent<Package>();
+            float package_cooldown = package.GetCooldown();
+            if (package_cooldown <= 0f)
+            {
+                Delivery delivery = package.GetDelivery();
+                int delivery_label = package.GetLabel();
+                if (delivery_destinations[0] == -1)
+                {
+                    delivery_destinations[0] = delivery_label;
+                    delivery.DestroyPackage(destinations[delivery_label]);
+                    delivery.SetIndex(0);
+                    deliveries[0] = delivery;
+                }
+                else if (delivery_destinations[1] == -1)
+                {
+                    delivery_destinations[1] = delivery_label;
+                    delivery.DestroyPackage(destinations[delivery_label]);
+                    delivery.SetIndex(1);
+                    deliveries[1] = delivery;
+                }
+            }
+        }
+    }
+
+    public void DropPackage()
+    {
+        int package_destination;
+        Delivery package;
+        // Remove first available delivery from inventory
+        if (delivery_destinations[0] != -1)
+        {
+            // Remove first delivery
+            package_destination = delivery_destinations[0];
+            delivery_destinations[0] = -1;
+            package = deliveries[0];
+            deliveries[0] = null;
+        }
+        else if (delivery_destinations[1] != -1)
+        {
+            // Remove second delivery
+            package_destination = delivery_destinations[1];
+            delivery_destinations[1] = -1;
+            package = deliveries[1];
+            deliveries[1] = null;
+        }
+        else
+        {
+            return;
+        }
+        // Tell delivery to spawn a pickup package object
+        package.SpawnPackage(this.transform.position, package_destination);
     }
 }
