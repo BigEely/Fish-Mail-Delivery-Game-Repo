@@ -1,0 +1,108 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Audio;
+
+//To play sounds from SoundType lists
+//SoundManager.PlaySound(SoundType.{SOUNDTYPE}, {OPTIONAL FLOAT FOR VOLUME});
+//example: SoundManager.PlaySound(SoundType.UINegative);
+
+
+public enum SoundType //To add more sounds, make more enums below and give type and audio clip in inspector respectfully.
+{ 
+    /*
+    SampleType1,
+    SampleType2
+    */
+}
+
+[RequireComponent(typeof(AudioSource))]
+public class SoundManager : MonoBehaviour
+
+{
+    [Header("To add more sounds, make more enums\n in script and give type and audio\n clip in inspector respectfully.")]
+    [SerializeField] private SoundList[] soundList;
+    public static SoundManager instance;
+    private AudioSource audioSource;
+
+    [Header("BG Music Settings")]
+    [SerializeField] private AudioSource loopingAudioSource; //Used for BG music
+    [SerializeField] private AudioMixerGroup musicGroup; //Main Channel for BG music
+    [SerializeField] private AudioMixerGroup musicReverbGroup; //Channel for BG music on pause: Create audioChannel and add affects to it
+    private float transitionTime = .333f; //How long it takes to transition BG music
+
+
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+
+        DontDestroyOnLoad(gameObject);
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public static void PlaySound(SoundType sound, float volume = 1) 
+    {
+        foreach (SoundList i in instance.soundList)
+        {
+            if (i.type == sound)
+            {
+                instance.audioSource.PlayOneShot(i.audioClip, volume);
+                return;
+            }
+        }
+        Debug.LogWarning($"Sound: {sound} not found.");
+    }
+
+    #region BG Music Functions
+    public static IEnumerator MusicTransition(SoundType music) //How to use: StartCoroutine(SoundManager.MusicTransition(SoundType.{MUSIC ENUM}));
+    {
+        instance.loopingAudioSource.loop = true;
+        foreach (SoundList i in instance.soundList)
+        {
+            if (i.type == music) //finds music
+            {
+                if (instance.loopingAudioSource.clip != i.audioClip) //checks if its not already playing
+                {
+                    instance.loopingAudioSource.volume = Mathf.Lerp(1, 0, instance.transitionTime);
+                    yield return new WaitForSecondsRealtime(instance.transitionTime);
+                    instance.loopingAudioSource.clip = i.audioClip;
+                    instance.loopingAudioSource.Play();
+                    instance.loopingAudioSource.volume = Mathf.Lerp(0, 1, instance.transitionTime);
+                    yield break;
+                }
+                else 
+                {
+                    yield break;
+                }
+            }
+        }
+        Debug.LogWarning($"Music: {music} not found.");
+    }
+    
+
+    public static void onPauseMusic()
+    {
+        instance.loopingAudioSource.outputAudioMixerGroup = instance.musicReverbGroup;
+    }
+
+    public static void onUnpauseMusic()
+    {
+        instance.loopingAudioSource.outputAudioMixerGroup = instance.musicGroup;
+    }
+    #endregion
+
+    [System.Serializable]
+    public class SoundList
+    {
+        public SoundType type;
+        public AudioClip audioClip;
+    }
+}
+
+

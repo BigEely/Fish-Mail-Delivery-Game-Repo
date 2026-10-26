@@ -65,8 +65,11 @@ public class Delivery: MonoBehaviour
         destination_y = dest_y;
         delivery_type = delivery_size;
         reward = 100 + delivery_type*50;
+        GameManager.instance.totalPackageReward += reward;
         transform.position = new Vector3(destination_x, destination_y, 0f);
         player = triggering_player;
+
+        player.GetComponent<PlayerControllerScript>().weight += delivery_type;
     }
 
     public int Complete()
@@ -74,6 +77,9 @@ public class Delivery: MonoBehaviour
         // pay reward
         Destroy(gps);
         Destroy(gameObject);
+
+        player.GetComponent<PlayerControllerScript>().weight -= delivery_type;
+        GameManager.instance.packageFishFlakes += reward;
         return reward;
     }
 
