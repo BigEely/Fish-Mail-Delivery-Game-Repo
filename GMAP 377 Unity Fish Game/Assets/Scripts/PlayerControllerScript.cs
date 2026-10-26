@@ -56,7 +56,7 @@ public class PlayerControllerScript : MonoBehaviour
         if (Mouse.current != null && Mouse.current.leftButton.isPressed && inWater)
         {
             isFastSwimming = Input.GetKey(KeyCode.Space) && stamina > 0;
-            float speed = isFastSwimming ? fastSwimSpeed : baseSwimSpeed;
+            float speed = isFastSwimming ? Mathf.Clamp(fastSwimSpeed - weight, baseSwimSpeed + 2f, fastSwimSpeed): baseSwimSpeed;
 
             //Move towards Cursor
             if (Vector3.Distance(currentPOS, mousePOS) > 1f)
@@ -94,7 +94,7 @@ public class PlayerControllerScript : MonoBehaviour
 
         if (!inWater)
         {
-            Gravity = Physics.gravity * (weight/8 + gravityPower);
+            Gravity = Physics.gravity * gravityPower * 7;
         }
         else
         {
