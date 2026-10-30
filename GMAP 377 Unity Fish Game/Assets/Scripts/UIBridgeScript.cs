@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 
 public class UIBridgeScript : MonoBehaviour
@@ -12,5 +13,18 @@ public class UIBridgeScript : MonoBehaviour
     public void ToggleObject(GameObject subject)
     {
         UIManager.instance.ToggleObject(subject);
+    }
+
+    public void Buy(int price)
+    {
+        if (GameManager.instance.TotalFishFlakes >= price) //ITEM BOUGHT
+        {
+            //SoundManager.PlaySound(SoundType.{VALID_PURCHASE})
+            GameManager.instance.TotalFishFlakes -= price;
+        }
+        else //Not Enough Money
+        {
+            //SoundManager.PlaySound(SoundType.{INVALID_PURCHASE})
+        }
     }
 }

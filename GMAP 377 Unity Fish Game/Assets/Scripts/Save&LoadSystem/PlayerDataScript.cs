@@ -4,9 +4,11 @@ using UnityEngine;
 public class PlayerDataScript
 {
     public int TotalFishFlakes = 1;
+    public int CurrentDay = 1;
 
     public PlayerDataScript (GameManager gameManager) //Fetches levelsComplete from GameManager script and uses int for saveData
     {
         TotalFishFlakes = gameManager.TotalFishFlakes;
+        CurrentDay = gameManager.CurrentDay;
     }
 }

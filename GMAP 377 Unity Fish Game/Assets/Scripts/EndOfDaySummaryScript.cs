@@ -30,4 +30,9 @@ public class EndOfDaySummaryScript : MonoBehaviour
         Earned.GetComponent<TextMeshProUGUI>().text = $"Earned: {earnedValue}";
         Total.GetComponent<TextMeshProUGUI>().text = $"Total: {total}";
     }
+
+    public void StartDay()
+    {
+        GameManager.instance.switchState(GameManager.GameState.game);
+    }
 }

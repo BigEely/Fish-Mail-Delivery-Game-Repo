@@ -20,6 +20,7 @@ public class DayTimer : MonoBehaviour
             {
                 timer = 0f;
                 timer_ended = true;
+                GameManager.instance.switchState(GameManager.GameState.endOfDay);
             }
             text_mesh_pro.text = Mathf.Floor(timer).ToString();
         }

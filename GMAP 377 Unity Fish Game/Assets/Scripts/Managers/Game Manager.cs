@@ -16,17 +16,20 @@ public class GameManager : MonoBehaviour
 
     [Header("Save/Load Settings")]
     public int TotalFishFlakes = 0; //Change save data variables in PlayerDataScript.cs
+    public int CurrentDay = 1;
 
     [Header("Game Data")]
     public int fishFlakesCollected = 0;
     public int timeRemaining = 0;
     public int packageFishFlakes = 0; //achieved
     public int totalPackageReward = 0; //achieved - total = package fails (should be negative if lost a package)
+    private bool hasCalculated = false;
 
     public enum GameState
     {
         mainMenu,
         game,
+        endOfDay,
         pause
     }
 
@@ -87,6 +90,7 @@ public class GameManager : MonoBehaviour
         timeRemaining = 0;
         packageFishFlakes = 0;
         totalPackageReward = 0;
+        CurrentDay += 1;
         SaveGame();
     }
 
@@ -99,12 +103,24 @@ public class GameManager : MonoBehaviour
         {
             case GameState.mainMenu:
                 //StartCoroutine(SoundManager.MusicTransition(SoundType._Insert Menu Music_));
+
                 break;
             case GameState.game:
                 //StartCoroutine(SoundManager.MusicTransition(SoundType._Insert Game Music_));
+                hasCalculated = false;
+
+                break;
+            case GameState.endOfDay:
+                if (!hasCalculated)
+                {
+                    endDay();
+                    hasCalculated = true;
+                }
+
                 break;
             case GameState.pause:
                 SoundManager.onPauseMusic();
+
                 break;
         }
     }
