@@ -8,7 +8,7 @@ public class StaminaBarScript : MonoBehaviour
     [SerializeField] Transform FullTarget;
     [SerializeField] Transform EmptyTarget;
 
-    private float maxStamina = 100;
+    private float maxStamina;
     private float currentStamina;
 
     public UnityEvent<float> IncreaseStamina;
@@ -16,6 +16,7 @@ public class StaminaBarScript : MonoBehaviour
 
     private void Awake()
     {
+        UpdateMaxStamina();
         currentStamina = maxStamina;
         IncreaseStamina.AddListener(AddStamina);
         DecreaseStamina.AddListener(RemoveStamina);
@@ -45,8 +46,15 @@ public class StaminaBarScript : MonoBehaviour
     {
         return currentStamina;
     }
+
+    public void UpdateMaxStamina()
+    { 
+        maxStamina = 100f * (GameManager.instance.MaxStaminaLevel * 1.2f);
+    }
+
     private void UpdateStaminaBar()
     {
+        UpdateMaxStamina();
         float staminaPercentage = currentStamina / maxStamina;
         Vector3 newPOS = Vector3.Lerp(EmptyTarget.position, FullTarget.position, staminaPercentage);
         staminaBar.position = newPOS;

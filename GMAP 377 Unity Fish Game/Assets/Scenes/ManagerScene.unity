@@ -152,6 +152,10 @@ MonoBehaviour:
   currentGameState: 0
   previousState: 0
   TotalFishFlakes: 0
+  BaseSwimSpeedLevel: 1
+  FastSwimSpeedLevel: 1
+  MaxStaminaLevel: 1
+  CurrentDay: 1
   fishFlakesCollected: 0
   timeRemaining: 0
   packageFishFlakes: 0

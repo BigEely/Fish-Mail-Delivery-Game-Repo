@@ -10,6 +10,7 @@ public class PlayerControllerScript : MonoBehaviour
 
     [SerializeField] float baseSwimSpeed;
     [SerializeField] float fastSwimSpeed;
+
     private float stamina;
     [SerializeField] float staminaRegenRate = 5f;
     [SerializeField] float fastSwimStaminaDecreaseRate = 5f;
@@ -56,7 +57,7 @@ public class PlayerControllerScript : MonoBehaviour
         if (Mouse.current != null && Mouse.current.leftButton.isPressed && inWater)
         {
             isFastSwimming = Input.GetKey(KeyCode.Space) && stamina > 0;
-            float speed = isFastSwimming ? Mathf.Clamp(fastSwimSpeed - weight, baseSwimSpeed + 2f, fastSwimSpeed): baseSwimSpeed;
+            float speed = isFastSwimming ? Mathf.Clamp(fastSwimSpeed * (GameManager.instance.FastSwimSpeedLevel * 1.2f) - weight, baseSwimSpeed * (GameManager.instance.BaseSwimSpeedLevel * 1.2f) + 2f, fastSwimSpeed * (GameManager.instance.FastSwimSpeedLevel * 1.2f)): baseSwimSpeed * (GameManager.instance.BaseSwimSpeedLevel * 1.2f);
 
             //Move towards Cursor
             if (Vector3.Distance(currentPOS, mousePOS) > 1f)
@@ -94,7 +95,7 @@ public class PlayerControllerScript : MonoBehaviour
 
         if (!inWater)
         {
-            Gravity = Physics.gravity * gravityPower * 7;
+            Gravity = Physics.gravity * gravityPower * 2;
         }
         else
         {

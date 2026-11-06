@@ -15,16 +15,9 @@ public class UIBridgeScript : MonoBehaviour
         UIManager.instance.ToggleObject(subject);
     }
 
-    public void Buy(int price)
+    public void WipeSaveData()
     {
-        if (GameManager.instance.TotalFishFlakes >= price) //ITEM BOUGHT
-        {
-            //SoundManager.PlaySound(SoundType.{VALID_PURCHASE})
-            GameManager.instance.TotalFishFlakes -= price;
-        }
-        else //Not Enough Money
-        {
-            //SoundManager.PlaySound(SoundType.{INVALID_PURCHASE})
-        }
+        GameManager.instance.WipeData();
     }
+
 }

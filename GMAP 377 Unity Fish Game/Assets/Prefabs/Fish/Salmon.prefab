@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 5161256069332700018}
   - component: {fileID: 1778032311274433049}
   - component: {fileID: 4355519699952261872}
+  - component: {fileID: 5248121468513836363}
   m_Layer: 0
   m_Name: Salmon
   m_TagString: Player
@@ -327,8 +328,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerScript
   rigidBody: {fileID: 7619450356899070913}
-  baseSwimSpeed: 10
-  fastSwimSpeed: 25
+  baseSwimSpeed: 5
+  fastSwimSpeed: 13
   staminaRegenRate: 30
   fastSwimStaminaDecreaseRate: 20
   weight: 0
@@ -379,6 +380,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PostalDeliverer
   delivery_prefab: {fileID: 7810763395698617463, guid: 5f17edac9d124e94799a6c0369dd59db, type: 3}
+--- !u!114 &5248121468513836363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2905025925920743237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f6e3ac10c0a9247864f9ca55547691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NotificationScript
+  NotificationPrefab: {fileID: 842900083260700912, guid: 27a66a3d5431f6e498e6f891e492a7b1, type: 3}
 --- !u!1 &3237077756934706126
 GameObject:
   m_ObjectHideFlags: 0

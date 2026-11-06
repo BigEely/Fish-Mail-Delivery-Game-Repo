@@ -80,6 +80,8 @@ public class Delivery: MonoBehaviour
 
         player.GetComponent<PlayerControllerScript>().weight -= delivery_type;
         GameManager.instance.packageFishFlakes += reward;
+
+        NotificationScript.instance.Delivered(reward);
         return reward;
     }
 

@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Save/Load Settings")]
     public int TotalFishFlakes = 0; //Change save data variables in PlayerDataScript.cs
+    public int BaseSwimSpeedLevel = 1;
+    public int FastSwimSpeedLevel = 1;
+    public int MaxStaminaLevel = 1;
     public int CurrentDay = 1;
 
     [Header("Game Data")]
@@ -103,12 +106,12 @@ public class GameManager : MonoBehaviour
         {
             case GameState.mainMenu:
                 //StartCoroutine(SoundManager.MusicTransition(SoundType._Insert Menu Music_));
-
+                SaveGame();
                 break;
             case GameState.game:
                 //StartCoroutine(SoundManager.MusicTransition(SoundType._Insert Game Music_));
                 hasCalculated = false;
-
+                SaveGame();
                 break;
             case GameState.endOfDay:
                 if (!hasCalculated)
@@ -157,6 +160,10 @@ public class GameManager : MonoBehaviour
         if (data != null)
         {
             TotalFishFlakes = data.TotalFishFlakes;
+            BaseSwimSpeedLevel = data.BaseSwimSpeedLevel;
+            FastSwimSpeedLevel = data.FastSwimSpeedLevel;
+            MaxStaminaLevel = data.MaxStaminaLevel;
+            CurrentDay = data.CurrentDay;
         }
     }
 
@@ -164,6 +171,10 @@ public class GameManager : MonoBehaviour
     {
         SaveScript.Delete();
         TotalFishFlakes = 0;
+        BaseSwimSpeedLevel = 1;
+        FastSwimSpeedLevel = 1;
+        MaxStaminaLevel = 1;
+        CurrentDay = 1;
         SaveScript.Save(this);
     }
     #endregion

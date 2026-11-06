@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FishFlakeScript : MonoBehaviour
@@ -9,6 +10,9 @@ public class FishFlakeScript : MonoBehaviour
         if (other.tag == "Player")
         {
             GameManager.instance.fishFlakesCollected += FishFlakeValue;
+
+            NotificationScript.instance.FishFlakesObtained(FishFlakeValue);
+
             Destroy(gameObject);
         }
     }
