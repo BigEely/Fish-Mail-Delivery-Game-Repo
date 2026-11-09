@@ -4,7 +4,7 @@ using UnityEngine;
 public class DayTimer : MonoBehaviour
 {
     private TMP_Text text_mesh_pro;
-    private float timer = 10f;
+    private float timer = 30f;
     private bool timer_ended = false;
     void Start()
     {

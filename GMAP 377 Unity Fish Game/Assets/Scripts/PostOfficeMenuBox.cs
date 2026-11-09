@@ -9,25 +9,22 @@ public class PostOfficeMenuBox: MonoBehaviour
     void Start()
     {
         this.gameObject.SetActive(false);
-        postal_deliverer.OrderDelivery(delivery_size);
+        Physics.queriesHitTriggers = true;
+        Physics2D.queriesHitTriggers = true;
     }
 
     void Update()
     {
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(
-                Mouse.current.position.ReadValue()
-            );
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            Collider2D hit = Physics2D.OverlapPoint(mousePosition);
+
+            if (hit == GetComponent<Collider2D>())
             {
-                if (hit.collider.gameObject == gameObject)
-                {
-                    postal_deliverer.OrderDelivery(delivery_size);
-                    Debug.Log("hit");
-                }
+                postal_deliverer.OrderDelivery(delivery_size);
+                Debug.Log("Object clicked!");
             }
         }
     }

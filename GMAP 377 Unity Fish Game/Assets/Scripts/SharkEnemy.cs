@@ -38,6 +38,8 @@ public class SharkEnemy: MonoBehaviour
             cooldown -= Time.deltaTime;
         }
 
+        float cur_angle = transform.rotation.eulerAngles.z;
+
         Vector3 cur_pos = this.gameObject.transform.position;
         Vector3 to_base = home_base - cur_pos;
         float distance_from_base = to_base.magnitude;
@@ -52,11 +54,15 @@ public class SharkEnemy: MonoBehaviour
             Vector3 trajectory = target - cur_pos;
             if (inWater)
             {
-                this.gameObject.transform.Translate(trajectory.normalized * roaming_speed * Time.deltaTime);
+                this.gameObject.transform.Translate(trajectory.normalized * roaming_speed * Time.deltaTime, Space.World);
+                float angle = Mathf.DeltaAngle(cur_angle, Mathf.Atan2(trajectory.y, trajectory.x) * Mathf.Rad2Deg) / 10f;
+                transform.rotation = Quaternion.Euler(0, 0, cur_angle + angle);
             }
             else
             {
-                this.gameObject.transform.Translate(new Vector3(0f, -1f, 0f) * roaming_speed * Time.deltaTime);
+                this.gameObject.transform.Translate(new Vector3(0f, -1f, 0f) * roaming_speed * Time.deltaTime, Space.World);
+                float angle = Mathf.DeltaAngle(cur_angle, Mathf.Atan2(-1f, 0f) * Mathf.Rad2Deg) / 10f;
+                transform.rotation = Quaternion.Euler(0, 0, cur_angle + angle);
                 FindNewTarget();
             }
 
@@ -79,7 +85,9 @@ public class SharkEnemy: MonoBehaviour
             // Charge
             timer = 3f;
             Vector3 trajectory = target - cur_pos;
-            this.gameObject.transform.Translate(trajectory.normalized * charging_speed * Time.deltaTime);
+            this.gameObject.transform.Translate(trajectory.normalized * charging_speed * Time.deltaTime, Space.World);
+            float angle = Mathf.DeltaAngle(cur_angle, Mathf.Atan2(trajectory.y, trajectory.x) * Mathf.Rad2Deg) / 10f;
+            transform.rotation = Quaternion.Euler(0, 0, cur_angle + angle);
             if ((trajectory.magnitude <= 1f) || !inWater)
             {
                 state = 2;
@@ -89,7 +97,9 @@ public class SharkEnemy: MonoBehaviour
         else if (state == 2)
         {
             // Return
-            this.gameObject.transform.Translate(to_base.normalized * roaming_speed * Time.deltaTime);
+            this.gameObject.transform.Translate(to_base.normalized * roaming_speed * Time.deltaTime, Space.World);
+            float angle = Mathf.DeltaAngle(cur_angle, Mathf.Atan2(to_base.y, to_base.x) * Mathf.Rad2Deg) / 10f;
+            transform.rotation = Quaternion.Euler(0, 0, cur_angle + angle);
             if ((distance_from_base <= base_radius) && (inWater))
             {
                 FindNewTarget();

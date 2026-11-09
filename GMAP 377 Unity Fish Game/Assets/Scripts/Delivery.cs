@@ -13,7 +13,7 @@ public class Delivery: MonoBehaviour
 
     private int reward;
 
-    private PostalDeliverer player;
+    [SerializeField] private PostalDeliverer player;
     public GameObject gps;
 
     [SerializeField] private GameObject package_prefab;

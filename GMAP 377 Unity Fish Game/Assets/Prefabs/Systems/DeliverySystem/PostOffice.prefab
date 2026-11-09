@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5406412242988105029}
-  - component: {fileID: 7717348070201172631}
   - component: {fileID: 895775895997378931}
   m_Layer: 0
   m_Name: PostOffice
@@ -36,27 +35,6 @@ Transform:
   - {fileID: 1491805288890672668}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &7717348070201172631
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3924667444559691039}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 8
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &895775895997378931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +60,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5960725885255712721}
   - component: {fileID: 5438042589966403762}
-  - component: {fileID: 7263208898251144125}
   - component: {fileID: 3477497208636945131}
   m_Layer: 0
   m_Name: SmallMenuOption
@@ -165,27 +142,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!65 &7263208898251144125
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5242237531643371351}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3477497208636945131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PostOfficeMenuBox
   delivery_size: 0
-  postal_deliverer: {fileID: 0}
 --- !u!1 &6930943503765150990
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +165,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4050410646469918210}
   - component: {fileID: 8952398281627462954}
-  - component: {fileID: 4540366141850819519}
   - component: {fileID: 3271840015584919571}
   m_Layer: 0
   m_Name: MediumMenuOption
@@ -293,27 +247,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!65 &4540366141850819519
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6930943503765150990}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3271840015584919571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,7 +260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PostOfficeMenuBox
   delivery_size: 1
-  postal_deliverer: {fileID: 0}
 --- !u!1 &7604305695077261905
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,7 +270,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1491805288890672668}
   - component: {fileID: 5254694085835096776}
-  - component: {fileID: 4511729990350926604}
   - component: {fileID: 1041304394273697168}
   m_Layer: 0
   m_Name: LargeMenuOption
@@ -421,27 +352,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!65 &4511729990350926604
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7604305695077261905}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1041304394273697168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,4 +365,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PostOfficeMenuBox
   delivery_size: 2
-  postal_deliverer: {fileID: 0}

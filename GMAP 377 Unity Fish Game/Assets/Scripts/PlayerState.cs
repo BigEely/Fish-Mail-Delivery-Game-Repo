@@ -7,12 +7,7 @@ public class PlayerState: MonoBehaviour
     private float timer = 0f;
     private float max_time = 3f;
 
-    private Renderer render;
-
-    void Start()
-    {
-        render = this.gameObject.GetComponent<Renderer>();
-    }
+    [SerializeField] private Renderer render;
 
     void Update()
     {

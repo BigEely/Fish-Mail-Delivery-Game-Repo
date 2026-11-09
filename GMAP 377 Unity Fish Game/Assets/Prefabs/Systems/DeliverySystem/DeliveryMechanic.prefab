@@ -158,5 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601d105e42c9baf4592cd3e16f889017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Delivery
+  player: {fileID: 4355519699952261872, guid: 924f63e8269c3364cafd59c653ac8ab7, type: 3}
   gps: {fileID: 608164584802236890}
   package_prefab: {fileID: 4675866009866922438, guid: be8611460b9f83f40aa557684207e591, type: 3}
