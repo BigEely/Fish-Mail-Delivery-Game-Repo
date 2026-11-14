@@ -1,5 +1,7 @@
 using System.ComponentModel;
+using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIBridgeScript : MonoBehaviour
 {
@@ -13,6 +15,37 @@ public class UIBridgeScript : MonoBehaviour
     public void ToggleObject(GameObject subject)
     {
         UIManager.instance.ToggleObject(subject);
+    }
+
+    public void PlayGame()
+    {
+        GameManager.instance.switchState(GameManager.GameState.game);
+        LoadScene("GamePlayScene");
+    }
+
+    public void ToTitleScene()
+    {
+        GameManager.instance.switchState(GameManager.GameState.mainMenu);
+        LoadScene("TitleScene");
+    }
+
+    public void RestartDay()
+    {
+        GameManager.instance.ResetGameData();
+        GameManager.instance.Unpause(GameManager.GameState.game);
+        UIManager.instance.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void TogglePause()
+    {
+        if (GameManager.instance.getCurrentGameState() == GameManager.GameState.pause) //If the game is already pause then unpause
+        {
+            GameManager.instance.Unpause(GameManager.instance.previousState);
+        }
+        else //Else pause the game
+        {
+            GameManager.instance.Pause();
+        }
     }
 
     public void WipeSaveData()

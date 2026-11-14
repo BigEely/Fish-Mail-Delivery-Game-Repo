@@ -22,6 +22,7 @@ public class PlayerControllerScript : MonoBehaviour
     private Vector3 Gravity;
     public float weight = 0f;
     [SerializeField] StaminaBarScript staminaBarScript;
+
     private void Update()
     {
         Swimming();
@@ -57,7 +58,7 @@ public class PlayerControllerScript : MonoBehaviour
         if (Mouse.current != null && Mouse.current.leftButton.isPressed && inWater)
         {
             isFastSwimming = Input.GetKey(KeyCode.Space) && stamina > 0;
-            float speed = isFastSwimming ? Mathf.Clamp(fastSwimSpeed * (GameManager.instance.FastSwimSpeedLevel * 1.2f) - weight, baseSwimSpeed * (GameManager.instance.BaseSwimSpeedLevel * 1.2f) + 2f, fastSwimSpeed * (GameManager.instance.FastSwimSpeedLevel * 1.2f)): baseSwimSpeed * (GameManager.instance.BaseSwimSpeedLevel * 1.2f);
+            float speed = isFastSwimming ? Mathf.Clamp(fastSwimSpeed * (GameManager.instance.FastSwimSpeedLevel * 1.2f) - weight, baseSwimSpeed * (GameManager.instance.BaseSwimSpeedLevel * 1.2f) + 5f, fastSwimSpeed * (GameManager.instance.FastSwimSpeedLevel * 1.2f)): baseSwimSpeed * (GameManager.instance.BaseSwimSpeedLevel * 1.2f);
 
             //Move towards Cursor
             if (Vector3.Distance(currentPOS, mousePOS) > 1f)
@@ -68,10 +69,10 @@ public class PlayerControllerScript : MonoBehaviour
                 }
                 else
                 {
-                    staminaBarScript.IncreaseStamina.Invoke(staminaRegenRate * Time.deltaTime);
+                    staminaBarScript.IncreaseStamina.Invoke(staminaRegenRate/2 * Time.deltaTime); //Regular swimming regens 50% of stamina regen rate
                 }
 
-                rigidBody.linearVelocity = direction.normalized  * speed + Gravity;
+                rigidBody.linearVelocity = direction.normalized * speed + Gravity;
             }
         }
         else

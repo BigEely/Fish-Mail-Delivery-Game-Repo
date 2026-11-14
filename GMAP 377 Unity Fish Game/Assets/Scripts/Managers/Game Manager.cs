@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 
-    private void endDay()
+    private void EndDay()
     {
         if (endOfDaySummaryScript == null)
         {
@@ -95,6 +95,14 @@ public class GameManager : MonoBehaviour
         totalPackageReward = 0;
         CurrentDay += 1;
         SaveGame();
+    }
+
+    public void ResetGameData()
+    {
+        fishFlakesCollected = 0;
+        timeRemaining = 0;
+        packageFishFlakes = 0;
+        totalPackageReward = 0;
     }
 
     #region GameState Functions
@@ -116,14 +124,13 @@ public class GameManager : MonoBehaviour
             case GameState.endOfDay:
                 if (!hasCalculated)
                 {
-                    endDay();
+                    EndDay();
                     hasCalculated = true;
                 }
 
                 break;
             case GameState.pause:
-                SoundManager.onPauseMusic();
-
+                //SoundManager.onPauseMusic(); UNCOMMENT WHEN SOUND IS IMPLEMENTED
                 break;
         }
     }
@@ -135,14 +142,14 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        SoundManager.onPauseMusic();
+        previousState = currentGameState;
         switchState(GameState.pause);
         Time.timeScale = 0f;
     }
 
     public void Unpause(GameState previousState)
     {
-        SoundManager.onUnpauseMusic();
+        //SoundManager.onUnpauseMusic(); UNCOMMENT WHEN SOUND IS IMPLEMENTED
         switchState(previousState);
         Time.timeScale = 1f;
     }

@@ -11,10 +11,10 @@ public class PostalDeliverer: MonoBehaviour
 
     void Start()
     {
-        destinations[0] = new Vector3(62f, -40f, 0f);
-        destinations[1] = new Vector3(42f, 0f, 0f);
-        destinations[2] = new Vector3(-5f, -36f, 0f);
-        destinations[3] = new Vector3(-42f, -3f, 0f);
+        destinations[0] = new Vector3(16.7f, 72.2f, 0f);
+        destinations[1] = new Vector3(-84.7f, 72.2f, 0f);
+        destinations[2] = new Vector3(112.5f, 19.4f, 0f);
+        destinations[3] = new Vector3(-102.3f, -109.7f, 0f);
 
         delivery_destinations[0] = -1;
         delivery_destinations[1] = -1;
