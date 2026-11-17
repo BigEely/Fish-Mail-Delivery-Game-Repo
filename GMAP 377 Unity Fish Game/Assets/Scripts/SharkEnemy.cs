@@ -113,7 +113,7 @@ public class SharkEnemy: MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerState player = other.gameObject.GetComponent<PlayerState>();
-            player.Hit();
+            player.Hit(transform.position);
         }
         if (other.gameObject.CompareTag("Water"))
         {
@@ -126,7 +126,7 @@ public class SharkEnemy: MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerState player = other.gameObject.GetComponent<PlayerState>();
-            player.Hit();
+            player.Hit(transform.position);
         }
     }
 

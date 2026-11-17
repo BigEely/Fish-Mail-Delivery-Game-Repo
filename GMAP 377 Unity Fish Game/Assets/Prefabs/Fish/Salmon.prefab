@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc26502aa995434aa10f71a46cb8177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerState
+  render: {fileID: 0}
 --- !u!114 &4355519699952261872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PostalDeliverer
   delivery_prefab: {fileID: 7810763395698617463, guid: 5f17edac9d124e94799a6c0369dd59db, type: 3}
+  post_office: {fileID: 0}
+  gps: {fileID: 0}
 --- !u!114 &5248121468513836363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +225,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 6
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 53132bd12dde09f4a8a2867ece497534, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

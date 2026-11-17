@@ -23,7 +23,7 @@ public class EelEnemy: MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerState player = other.gameObject.GetComponent<PlayerState>();
-            player.Hit();
+            player.Hit(transform.position);
         }
     }
 
@@ -32,7 +32,7 @@ public class EelEnemy: MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             PlayerState player = other.gameObject.GetComponent<PlayerState>();
-            player.Hit();
+            player.Hit(transform.position);
         }
     }
 }

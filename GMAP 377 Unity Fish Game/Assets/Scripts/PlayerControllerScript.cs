@@ -23,9 +23,20 @@ public class PlayerControllerScript : MonoBehaviour
     public float weight = 0f;
     [SerializeField] StaminaBarScript staminaBarScript;
 
+    private PlayerState player_state;
+
+    void Awake()
+    {
+        player_state = this.gameObject.GetComponent<PlayerState>();
+    }
+
     private void Update()
     {
-        Swimming();
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+        if (player_state.GetTimer() <= 2.0f)
+        {
+            Swimming();
+        }
         Weight();
         stamina = staminaBarScript.GetStamina();
     }

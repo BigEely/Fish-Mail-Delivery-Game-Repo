@@ -13,19 +13,11 @@ public class PostOfficeMenuBox: MonoBehaviour
         Physics2D.queriesHitTriggers = true;
     }
 
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (other.gameObject.CompareTag("Player"))
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            Collider2D hit = Physics2D.OverlapPoint(mousePosition);
-
-            if (hit == GetComponent<Collider2D>())
-            {
-                postal_deliverer.OrderDelivery(delivery_size);
-                Debug.Log("Object clicked!");
-            }
+            postal_deliverer.OrderDelivery(delivery_size);
         }
     }
 }
