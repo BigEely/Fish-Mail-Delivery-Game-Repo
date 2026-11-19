@@ -57,6 +57,10 @@ public class Delivery: MonoBehaviour
     {
         return package_spawned;
     }
+    public int GetPackageType()
+    {
+        return delivery_type;
+    }
 
     public void SetDelivery(int index, float dest_x, float dest_y, int delivery_size, PostalDeliverer triggering_player)
     {

@@ -9,8 +9,15 @@ public class PostalDeliverer: MonoBehaviour
 
     private int fish_flakes = 0;
 
+    [SerializeField] private GameObject post_office;
+    [SerializeField] private GameObject gps;
+
+    private Quota quota;
+
     void Start()
     {
+        quota = this.gameObject.GetComponent<Quota>();
+
         destinations[0] = new Vector3(16.7f, 72.2f, 0f);
         destinations[1] = new Vector3(-84.7f, 72.2f, 0f);
         destinations[2] = new Vector3(112.5f, 19.4f, 0f);
@@ -18,6 +25,31 @@ public class PostalDeliverer: MonoBehaviour
 
         delivery_destinations[0] = -1;
         delivery_destinations[1] = -1;
+
+        gps.SetActive(false);
+    }
+
+    void Update()
+    {
+        if ((delivery_destinations[0] == -1) && (delivery_destinations[1] == -1))
+        {
+            gps.SetActive(true);
+            Vector3 player_pos = transform.position;
+
+            Vector3 trajectory = new Vector3(post_office.transform.position.x, post_office.transform.position.y, 0f) - player_pos;
+            Vector3 trajectory_norm = trajectory.normalized;
+            Vector3 gps_pos = player_pos + trajectory_norm*3.0f;
+
+            gps.transform.position = gps_pos;
+
+            float new_rot_rad = Mathf.Atan2(trajectory_norm.y, trajectory_norm.x);
+            float new_rot_deg = new_rot_rad * Mathf.Rad2Deg - 90f;
+            gps.transform.eulerAngles = new Vector3(0f, 0f, new_rot_deg);
+        }
+        else
+        {
+            gps.SetActive(false);
+        }
     }
 
     public void OrderDelivery(int delivery_size)
@@ -64,6 +96,8 @@ public class PostalDeliverer: MonoBehaviour
             bool package_mode = delivery.GetPackageSpawned();
             if (!package_mode)
             {
+                quota.CompleteDelivery(delivery.GetPackageType());
+                
                 int index = delivery.GetIndex();
                 deliveries[index] = null;
                 delivery_destinations[index] = -1;

@@ -49,7 +49,7 @@ public class PlayerState: MonoBehaviour
         }
     }
 
-    public void Hit()
+    public void Hit(Vector3 enemy_pos)
     {
         if (player_state == 0)
         {
@@ -61,6 +61,17 @@ public class PlayerState: MonoBehaviour
 
             PlayerControllerScript player_controller = this.gameObject.GetComponent<PlayerControllerScript>();
             player_controller.HitStamina();
+
+            Vector3 trajectory = transform.position - enemy_pos;
+            trajectory = new Vector3(trajectory.x, trajectory.y, 0);
+
+            Rigidbody rb = this.gameObject.GetComponent<Rigidbody>();
+            rb.AddForce(trajectory * 3f, ForceMode.Impulse);
         }
+    }
+
+    public float GetTimer()
+    {
+        return timer;
     }
 }
