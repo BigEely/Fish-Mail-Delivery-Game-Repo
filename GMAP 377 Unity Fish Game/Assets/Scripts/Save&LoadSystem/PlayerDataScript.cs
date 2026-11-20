@@ -3,6 +3,8 @@ using UnityEngine;
 [System.Serializable] //Makes script able to be saved in file
 public class PlayerDataScript
 {
+    public bool tutorialFinished = false;
+
     public int TotalFishFlakes = 1;
 
     public int BaseSwimSpeedLevel = 1;
@@ -11,15 +13,17 @@ public class PlayerDataScript
 
     public int CurrentDay = 1;
 
-
+    
     public PlayerDataScript (GameManager gameManager) //Fetches variables from GameManager script and uses values for saveData
     {
         TotalFishFlakes = gameManager.TotalFishFlakes;
 
         BaseSwimSpeedLevel = gameManager.BaseSwimSpeedLevel;
-        FastSwimSpeedLevel = gameManager .FastSwimSpeedLevel;
-        MaxStaminaLevel = gameManager .MaxStaminaLevel;
+        FastSwimSpeedLevel = gameManager.FastSwimSpeedLevel;
+        MaxStaminaLevel = gameManager.MaxStaminaLevel;
 
         CurrentDay = gameManager.CurrentDay;
+
+        tutorialFinished = gameManager.tutorialFinished;
     }
 }

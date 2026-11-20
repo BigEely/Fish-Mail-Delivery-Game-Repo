@@ -26,7 +26,9 @@ public class GameManager : MonoBehaviour
     public int timeRemaining = 0;
     public int packageFishFlakes = 0; //achieved
     public int totalPackageReward = 0; //achieved - total = package fails (should be negative if lost a package)
+    public bool tutorialFinished = false;
     private bool hasCalculated = false;
+    
 
     public enum GameState
     {
@@ -171,6 +173,7 @@ public class GameManager : MonoBehaviour
             FastSwimSpeedLevel = data.FastSwimSpeedLevel;
             MaxStaminaLevel = data.MaxStaminaLevel;
             CurrentDay = data.CurrentDay;
+            tutorialFinished = data.tutorialFinished;
         }
     }
 
@@ -182,6 +185,7 @@ public class GameManager : MonoBehaviour
         FastSwimSpeedLevel = 1;
         MaxStaminaLevel = 1;
         CurrentDay = 1;
+        tutorialFinished = false;
         SaveScript.Save(this);
     }
     #endregion

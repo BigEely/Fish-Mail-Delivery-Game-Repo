@@ -31,7 +31,7 @@ public class PauseMenuScript : MonoBehaviour
 
     private void UpdatePauseUI()
     { 
-        bool isPaused = GameManager.instance.getCurrentGameState() == GameManager.GameState.pause;
+        bool isPaused = GameManager.instance.getCurrentGameState() == GameManager.GameState.pause && GameManager.instance.tutorialFinished == true;
         PauseCanvasGroup.SetActive(isPaused);
     }
 }

@@ -4,8 +4,10 @@ public class Quota: MonoBehaviour
 {
     private bool quota_done = false;
 
-    private int[] goal = new int[3];
+    public int[] goal = new int[3];
     private int[] completed = new int[3];
+
+    public int packagesDelivered = 0;
 
     void Start()
     {
@@ -32,6 +34,7 @@ public class Quota: MonoBehaviour
     public void CompleteDelivery(int delivery_type)
     {
         completed[delivery_type] += 1;
+        packagesDelivered++;
     }
 
     public void ResetQuota()
@@ -39,6 +42,7 @@ public class Quota: MonoBehaviour
         completed[0] = 0;
         completed[1] = 0;
         completed[2] = 0;
+        packagesDelivered = 0;
     }
 
     public bool GetQuotaDone()

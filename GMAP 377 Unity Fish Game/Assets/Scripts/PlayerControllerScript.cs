@@ -15,6 +15,7 @@ public class PlayerControllerScript : MonoBehaviour
     [SerializeField] float staminaRegenRate = 5f;
     [SerializeField] float fastSwimStaminaDecreaseRate = 5f;
     private bool isFastSwimming = false;
+    private TrailRenderer trailRenderer;
 
     private bool isFacingRight = true;
 
@@ -28,6 +29,11 @@ public class PlayerControllerScript : MonoBehaviour
     void Awake()
     {
         player_state = this.gameObject.GetComponent<PlayerState>();
+    }
+
+    private void Start()
+    {
+        trailRenderer = gameObject.GetComponent<TrailRenderer>();
     }
 
     private void Update()
@@ -77,10 +83,12 @@ public class PlayerControllerScript : MonoBehaviour
                 if (isFastSwimming)
                 {
                     staminaBarScript.DecreaseStamina.Invoke(fastSwimStaminaDecreaseRate * Time.deltaTime);
+                    trailRenderer.emitting = true;
                 }
                 else
                 {
                     staminaBarScript.IncreaseStamina.Invoke(staminaRegenRate/2 * Time.deltaTime); //Regular swimming regens 50% of stamina regen rate
+                    trailRenderer.emitting = false;
                 }
 
                 rigidBody.linearVelocity = direction.normalized * speed + Gravity;
